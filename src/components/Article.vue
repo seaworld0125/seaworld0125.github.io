@@ -6,16 +6,16 @@ import Markdown from "vue3-markdown-it";
 export default {
   components: {Markdown},
   props: {
-    articleName: {
+    articleUrl: {
       type: String,
       required: true,
-      default: '404.md'
+      default: '/404.md'
     }
   },
   async setup(props) {
-    const markdownData = ref('게시물을 불러오지 못했어요 ㅠㅠ');
+    const markdownData = ref('');
     try {
-      const res = await axios.get('/Brain/' + props.articleName)
+      const res = await axios.get(props.articleUrl)
       markdownData.value = res.data
     } catch (err) {
       console.error(err)
@@ -27,7 +27,7 @@ export default {
 
 <template>
  <div class="article">
-   <Markdown :source="markdownData" />
+   <Markdown :source="markdownData"/>
  </div>
 </template>
 

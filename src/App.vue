@@ -1,6 +1,5 @@
 <script setup>
-import Article from "./components/Article.vue";
-import ArticleRender from "./components/ArticleRender.vue";
+import Board from "./components/Board.vue";
 </script>
 
 <template>
@@ -16,9 +15,8 @@ import ArticleRender from "./components/ArticleRender.vue";
     <template #fallback>
       <div>loading...</div>
     </template>
-    <Article articleName="알림톡 테스트.md"/>
+    <Board/>
   </Suspense>
-  <ArticleRender/>
 </template>
 
 <style scoped>

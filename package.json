@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@highlightjs/vue-plugin": "^2.1.0",
+    "@octokit/core": "^5.0.1",
     "axios": "^1.5.1",
     "vue": "^3.3.4",
     "vue3-markdown-it": "^1.0.10"
