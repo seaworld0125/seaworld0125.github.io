@@ -1,4 +1,4 @@
-import Github from '../sub/github.json'
+import Github from '../../sub/github.json'
 export default {
   data() {
     return {

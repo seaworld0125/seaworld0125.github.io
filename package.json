@@ -12,8 +12,12 @@
     "@highlightjs/vue-plugin": "^2.1.0",
     "@octokit/core": "^5.0.1",
     "axios": "^1.5.1",
+    "highlight.js": "^11.9.0",
+    "markdown-it": "^13.0.2",
+    "markdown-it-highlightjs": "^4.0.1",
+    "spinkit": "^2.0.1",
     "vue": "^3.3.4",
-    "vue3-markdown-it": "^1.0.10"
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

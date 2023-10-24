@@ -1,8 +1,6 @@
 import axios from 'axios';
-import apiUrl from "./envConfig.js";
 
 const instance = axios.create({
-  baseURL: apiUrl.baseUrl,
   headers: {
     "Content-Type": "application/json"
   }
