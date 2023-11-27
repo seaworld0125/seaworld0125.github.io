@@ -1,10 +1,10 @@
 <script>
-import {Octokit} from "@octokit/core";
-import githubSecret from "../plugins/githubSecret.js";
 import Article from "./Article.vue";
 import Folder from "./Folder.vue";
-import {ref} from "vue";
 import Shader from "./Shader.vue";
+import octokit from "../plugins/octokit.js";
+import {hasInvalidPatterns} from "../plugins/patternUtils.js";
+import IndexNav from "./IndexNav.vue";
 
 export default {
   props: {
@@ -13,30 +13,18 @@ export default {
       default: []
     }
   },
-  components: {Shader, Folder, Article},
+  components: {IndexNav, Shader, Folder, Article},
   async setup(props) {
-    const octokit = new Octokit({ auth: githubSecret.data().github});
     const res = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
       owner: 'seaworld0125',
       repo: 'blog',
       path: props.path.join('/')
     });
-    const invalidPatterns = [
-        ".gitignore",
-        ".png",
-        ".jpg",
-    ];
+    console.log(res)
     const dataMap = {
       folders: [],
-      files: []
-    }
-    const hasInvalidPatterns = (target) => {
-      for (let pattern of invalidPatterns) {
-        if(target.includes(pattern)) {
-          return true;
-        }
-      }
-      return false;
+      files: [],
+      indexes: []
     }
     for(const i of res.data) {
       if(hasInvalidPatterns(i.name)) {
@@ -53,19 +41,9 @@ export default {
           prevPath: props.path
         });
       }
+      dataMap.indexes.push(i.name)
     }
-    const loadingDone = ref(false);
-    return {dataMap, loadingDone}
-  },
-  async mounted() {
-    await this.$nextTick(() => {
-      this.stopProgressBar();
-    });
-  },
-  methods: {
-    stopProgressBar: function() {
-      this.loadingDone = true;
-    }
+    return {dataMap}
   }
 }
 </script>
@@ -73,7 +51,15 @@ export default {
 <template>
   <div class="border-line">
     <div class="folder-box">
-      <Folder v-for="folder in dataMap.folders" :title="folder.title" :prev-path="folder.prevPath"/>
+      <suspense>
+        <template #fallback>
+          ...loading
+        </template>
+        <template #default>
+          <IndexNav/>
+        </template>
+      </suspense>
+<!--      <Folder v-for="folder in dataMap.folders" :title="folder.title" :prev-path="folder.prevPath"/>-->
     </div>
     <div class="article-box">
       <suspense>
